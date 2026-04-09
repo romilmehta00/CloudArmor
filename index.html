@@ -1,0 +1,234 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Armor | Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96 relative">
+        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Cloud Armor</h2>
+        
+        <div id="errorBox" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm"></div>
+
+        <form id="loginForm" class="space-y-4">
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" id="loginUser" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" id="loginPass" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Login</button>
+            <p class="text-center text-sm text-gray-600 mt-4">New to Cloud Armor? <a href="#" onclick="toggleForms()" class="text-blue-500 hover:underline">Register here</a></p>
+        </form>
+
+        <form id="registerForm" class="space-y-4 hidden">
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input type="email" id="regEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input type="text" id="regUser" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input type="password" id="regPass" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">Register</button>
+            <p class="text-center text-sm text-gray-600 mt-4">Already have an account? <a href="#" onclick="toggleForms()" class="text-blue-500 hover:underline">Login here</a></p>
+        </form>
+    </div>
+
+    <script>
+        function toggleForms() {
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('registerForm').classList.toggle('hidden');
+            document.getElementById('errorBox').classList.add('hidden');
+        }
+
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            box.innerText = msg;
+            box.classList.remove('hidden');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: document.getElementById('loginUser').value,
+                    password: document.getElementById('loginPass').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                window.location.href = data.is_admin ? '/admin' : '/dashboard';
+            } else {
+                showError(data.error);
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: document.getElementById('regEmail').value,
+                    username: document.getElementById('regUser').value,
+                    password: document.getElementById('regPass').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Registration successful! Please login.');
+                toggleForms();
+            } else {
+                showError(data.error);
+            }
+        });
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Armor | Authentication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom background for the image side */
+        .cloud-bg {
+            background-image: url('https://images.unsplash.com/photo-1506222456891-306d88486026?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Glassmorphism effect for the form container */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden">
+
+    <div class="hidden lg:flex w-1/2 cloud-bg relative items-center justify-center p-12">
+        <div class="absolute inset-0 bg-blue-900/40"></div> <div class="relative z-10 text-white max-w-md">
+            <h1 class="text-4xl font-extrabold mb-4">Secure Your Digital Legacy</h1>
+            <p class="text-lg opacity-90">Experience military-grade protection and seamless cloud synchronization with Cloud Armor's Sentimental Vault.</p>
+        </div>
+    </div>
+
+    <div class="w-full lg:w-1/2 flex items-center justify-center bg-gray-50 p-8">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-blue-600">Cloud Armor</h2>
+                <p class="text-gray-500 text-sm mt-1">Integrated Security & Cloud Storage</p>
+            </div>
+            
+            <div id="errorBox" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 text-sm"></div>
+
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-1">Username</label>
+                    <input type="text" id="loginUser" required placeholder="Enter username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-1">Password</label>
+                    <input type="password" id="loginPass" required placeholder="••••••••" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 shadow-lg transition">Sign In</button>
+                <p class="text-center text-sm text-gray-600 mt-6">New to Cloud Armor? <a href="#" onclick="toggleForms()" class="text-blue-600 font-semibold hover:underline">Create an account</a></p>
+            </form>
+
+            <form id="registerForm" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-1">Email Address</label>
+                    <input type="email" id="regEmail" required placeholder="name@company.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-1">Username</label>
+                    <input type="text" id="regUser" required placeholder="Choose a username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-semibold mb-1">Password</label>
+                    <input type="password" id="regPass" required placeholder="••••••••" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition">
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white font-bold py-3 rounded-lg hover:bg-green-700 shadow-lg transition">Register Now</button>
+                <p class="text-center text-sm text-gray-600 mt-6">Already have an account? <a href="#" onclick="toggleForms()" class="text-blue-600 font-semibold hover:underline">Log in here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Form Toggle Logic
+        function toggleForms() {
+            document.getElementById('loginForm').classList.toggle('hidden');
+            document.getElementById('registerForm').classList.toggle('hidden');
+            document.getElementById('errorBox').classList.add('hidden');
+        }
+
+        // Logic to check URL parameters for auto-toggle
+        window.onload = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('action') === 'register') {
+                toggleForms();
+            }
+        }
+
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            box.innerText = msg;
+            box.classList.remove('hidden');
+        }
+
+        // Keep your existing Fetch API logic below
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: document.getElementById('loginUser').value,
+                    password: document.getElementById('loginPass').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                window.location.href = data.is_admin ? '/admin' : '/dashboard';
+            } else {
+                showError(data.error);
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: document.getElementById('regEmail').value,
+                    username: document.getElementById('regUser').value,
+                    password: document.getElementById('regPass').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert('Registration successful! Please login.');
+                toggleForms();
+            } else {
+                showError(data.error);
+            }
+        });
+    </script>
+</body>
+</html>

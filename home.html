@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Armor | Secure Sentimental Vault</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&q=80&w=1920');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+
+    <nav class="absolute w-full z-10 p-6 flex justify-between items-center px-12">
+        <h1 class="text-2xl font-bold tracking-tight text-blue-400">🛡️ CLOUD ARMOR</h1>
+        <div class="space-x-4">
+            <a href="/auth" class="px-6 py-2 rounded-full font-semibold hover:text-blue-400 transition">Login</a>
+            <a href="/auth?action=register" class="bg-blue-600 px-6 py-2 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg">Get Started</a>
+        </div>
+    </nav>
+
+    <header class="hero-bg h-screen flex items-center justify-center text-center px-4">
+        <div class="max-w-3xl">
+            <h2 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                Your Memories, <span class="text-blue-400">Armored</span> in the Cloud.
+            </h2>
+            <p class="text-lg md:text-xl text-gray-300 mb-10">
+                The Cloud Sentimental Vault provides military-grade encryption and IDS protection for your most precious digital assets.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <a href="/auth?action=register" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-lg text-lg font-bold transition transform hover:scale-105">
+                    Start Securing Files
+                </a>
+                <a href="#features" class="glass hover:bg-white/20 text-white px-10 py-4 rounded-lg text-lg font-bold transition">
+                    Explore Features
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="py-24 bg-gray-800 px-6">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-3xl font-bold mb-4">Why Trust Cloud Armor?</h3>
+                <div class="h-1 w-20 bg-blue-500 mx-auto"></div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition">
+                    <div class="text-blue-400 text-4xl mb-4">☁️</div>
+                    <h4 class="text-xl font-bold mb-2">AWS S3 Integration</h4>
+                    <p class="text-gray-400">Redundant, highly available storage powered by Amazon Web Services infrastructure.</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition">
+                    <div class="text-blue-400 text-4xl mb-4">🔒</div>
+                    <h4 class="text-xl font-bold mb-2">Advanced IDS</h4>
+                    <p class="text-gray-400">Built-in Intrusion Detection System that blocks malicious IPs after failed attempts.</p>
+                </div>
+                <div class="bg-gray-900 p-8 rounded-2xl border border-gray-700 hover:border-blue-500 transition">
+                    <div class="text-blue-400 text-4xl mb-4">📊</div>
+                    <h4 class="text-xl font-bold mb-2">Security Auditing</h4>
+                    <p class="text-gray-400">Full transparency with real-time logging of all file uploads and access attempts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="h-64 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1920" alt="Cloud tech" class="w-full h-full object-cover opacity-30">
+    </div>
+
+    <footer class="p-10 text-center text-gray-500 border-t border-gray-800">
+        <p>© 2026 Cloud Armor Project. Built for Secure Data Management.</p>
+    </footer>
+
+</body>
+</html>

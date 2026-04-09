@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Armor | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 h-screen flex flex-col">
+
+    <nav class="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
+        <h1 class="text-xl font-bold">Cloud Armor Vault</h1>
+        <div class="space-x-4">
+            <button onclick="deleteAccount()" class="bg-red-800 px-4 py-2 rounded hover:bg-red-900 transition font-bold">Delete My Account</button>
+            <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600 transition">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6 flex-grow">
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-lg font-bold mb-4 border-b pb-2">Upload Backup to AWS S3</h2>
+            <form id="uploadForm" class="flex items-center space-x-4">
+                <input type="file" id="fileInput" required class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700 whitespace-nowrap">Secure Upload</button>
+            </form>
+            <p id="uploadStatus" class="mt-2 text-sm text-gray-600 hidden">Uploading...</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-lg font-bold mb-4 border-b pb-2">Your Secured Files</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700">
+                            <th class="p-3 border-b">Filename</th>
+                            <th class="p-3 border-b">Upload Date</th>
+                            <th class="p-3 border-b">Size (Bytes)</th>
+                            <th class="p-3 border-b text-center">Action (Restore)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filesTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchFiles() {
+            const res = await fetch('/api/files');
+            if (res.status === 401) window.location.href = '/';
+            const files = await res.json();
+            const tbody = document.getElementById('filesTableBody');
+            tbody.innerHTML = '';
+            
+            files.forEach(f => {
+                const row = `<tr>
+                    <td class="p-3 border-b">${f.original_name}</td>
+                    <td class="p-3 border-b">${new Date(f.uploaded_at).toLocaleString()}</td>
+                    <td class="p-3 border-b">${f.size}</td>
+                    <td class="p-3 border-b text-center">
+                        <button onclick="downloadFile('${f.file_id}')" class="text-blue-600 hover:text-blue-800 font-semibold mr-3">Restore</button>
+                        <button onclick="deleteFile('${f.file_id}')" class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusText = document.getElementById('uploadStatus');
+            statusText.classList.remove('hidden');
+            statusText.innerText = "Uploading to AWS S3...";
+
+            const formData = new FormData();
+            formData.append('file', document.getElementById('fileInput').files[0]);
+
+            const res = await fetch('/api/files/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            
+            if (res.ok) {
+                statusText.innerText = "✅ Upload complete!";
+                document.getElementById('uploadForm').reset();
+                fetchFiles();
+            } else {
+                statusText.innerText = "❌ Error: " + data.error;
+            }
+            setTimeout(() => statusText.classList.add('hidden'), 3000);
+        });
+
+        async function downloadFile(id) {
+            const res = await fetch(`/api/files/${id}/download`);
+            const data = await res.json();
+            if (data.download_url) window.location.href = data.download_url;
+            else alert("Error: " + data.error);
+        }
+
+        async function deleteFile(id) {
+            if(!confirm('Delete this file permanently?')) return;
+            await fetch(`/api/files/${id}`, { method: 'DELETE' });
+            fetchFiles();
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.href = '/';
+        }
+
+        async function deleteAccount() {
+            if(!confirm('DANGER: Are you sure you want to permanently delete your account and ALL your secured AWS files? This cannot be undone.')) return;
+            
+            const res = await fetch('/api/account/delete', { method: 'DELETE' });
+            if (res.ok) {
+                alert('Account and all associated files deleted successfully.');
+                window.location.href = '/';
+            } else {
+                const data = await res.json();
+                alert("Error: " + data.error);
+            }
+        }
+
+        // Load files on start
+        fetchFiles();
+    </script>
+</body>
+</html>
